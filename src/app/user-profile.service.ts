@@ -10,7 +10,7 @@ export class UserProfileService {
 
   constructor(private http: HttpClient) { }
 
-  post(user:IUser): Observable<IUser> {
-    return this.http.post<IUser>("https://regres.in/api/registrerUser", user);
+  post(user: any): Observable<any> {
+    return this.http.post<any>("https://regres.in/api/registrerUser", user);
   }
 }

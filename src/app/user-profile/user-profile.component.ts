@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserProfileService } from '../user-profile.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { IUser } from '../interfaces/iuser';
 
 @Component({
@@ -11,7 +11,7 @@ import { IUser } from '../interfaces/iuser';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
-  profile: IUser = {};
+  profileForm: FormGroup;
   constructor(
     private UserProfileService: UserProfileService,
     private AuthService:AuthService,
@@ -20,26 +20,25 @@ export class UserProfileComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.profile = this.formbuilder.group({
-      favoriteMovie: "Anchorman",
+    this.profileForm = this.formbuilder.group({
       firstName: "Jim",
       lastName: "Sanders",
-      email: "jim@test.com"
+      birthday: "10/17/1962",
+      address: "Broadway",
+      FaveFood: "Mexican",
+      FavMovie: "Titanic",
+      FavArtist: "any",
+      hobbies:  "swimming, sewing"
     });
   }
 
   post() {
     //const service: UserProfileService
-    this.UserProfileService.post(this.profile)
-    .subscribe(data=> this.profile = data);
+    this.UserProfileService.post(this.profileForm.value)
+    .subscribe(console.log);
   }
 
-  onSubmit(user) {
-    // Process checkout data here
-    console.warn("Submitted", user);
-    this.AuthService.register(user).subscribe(user => {
-      console.log(user);
-      if (user) this.router.navigateByUrl("/");
-    });
+  onSubmit() {
+    this.post()
   }
 }
